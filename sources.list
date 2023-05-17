@@ -41,6 +41,7 @@ files/fileMeanPolarMotion.cpp
 files/fileNormalEquation.cpp
 files/fileOceanPoleTide.cpp
 files/fileParameterName.cpp
+files/filePlatform.cpp
 files/filePolygon.cpp
 files/fileSatelliteModel.cpp
 files/fileSphericalHarmonics.cpp

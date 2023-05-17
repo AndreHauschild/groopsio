@@ -46,6 +46,7 @@
 #include "files/fileNormalEquation.h"
 #include "files/fileOceanPoleTide.h"
 #include "files/fileParameterName.h"
+#include "files/filePlatform.h"
 #include "files/filePolygon.h"
 #include "files/fileSatelliteModel.h"
 #include "files/fileSphericalHarmonics.h"
