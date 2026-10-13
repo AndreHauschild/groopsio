@@ -73,5 +73,5 @@ setup(
     ext_modules=[CMakeExtension(name="groopsiobase")],
     license='GPL-3.0',
     cmdclass={'build_ext': BuildCMakeExt},
-    install_requires=['cmake>=3.16', 'numpy>=2', 'scipy']
+    install_requires=['cmake>=3.16', 'numpy>=2']
 )
