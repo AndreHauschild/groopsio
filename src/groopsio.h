@@ -40,6 +40,7 @@
 #include "files/fileGriddedData.h"
 #include "files/fileGriddedDataTimeSeries.h"
 #include "files/fileInstrument.h"
+#include "files/fileIslBias.h"
 #include "files/fileMatrix.h"
 #include "files/fileMeanPolarMotion.h"
 #include "files/fileNormalEquation.h"
@@ -958,6 +959,37 @@ static PyObject* loadgnsssignalbias(PyObject*, PyObject *args)
     {
       PyObject* current_tuple = PyTuple_New(2);
       PyTuple_SetItem(current_tuple, 0, Py_BuildValue("s", biases.types.at(i).str().c_str()));
+      PyTuple_SetItem(current_tuple, 1, Py_BuildValue("d", biases.biases.at(i)));
+
+      PyTuple_SetItem(return_tuple, i, current_tuple);
+    }
+    return return_tuple;
+  }
+  catch(std::exception &e)
+  {
+    PyErr_SetString(groopsError, e.what());
+    return NULL;
+  }
+}
+
+/*
+ * Read groops islbias file
+ */
+static PyObject* loadislbias(PyObject*, PyObject *args)
+{
+  try
+  {
+    const char *s;
+    if(!PyArg_ParseTuple(args, "s", &s))
+      throw(Exception("Unable to parse arguments"));
+    std::string fname(s);
+    IslBias biases;
+    readFileIslBias(fname, biases);
+    PyObject* return_tuple = PyTuple_New(biases.biases.size());
+    for(UInt i = 0; i < biases.biases.size(); i++)
+    {
+      PyObject* current_tuple = PyTuple_New(2);
+      PyTuple_SetItem(current_tuple, 0, Py_BuildValue("i", biases.terminals.at(i)));
       PyTuple_SetItem(current_tuple, 1, Py_BuildValue("d", biases.biases.at(i)));
 
       PyTuple_SetItem(return_tuple, i, current_tuple);

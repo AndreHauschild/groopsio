@@ -881,3 +881,29 @@ def loadgnsssignalbias(file_name):
         raise FileNotFoundError("File {} does not exist".format(file_name))
 
     return giocpp.loadgnsssignalbias(file_name)
+
+
+def loadislbias(file_name):
+    """
+    Read ISL bias file
+
+    Parameters
+    ----------
+    file_name : str
+        file name
+
+    Returns
+    -------
+    islBiases : tuple of tuple of str and float
+        tuple of tuple of str and float
+
+    Raises
+    ------
+    FileNotFoundError
+        if file does not exist
+    """
+
+    if not isfile(file_name):
+        raise FileNotFoundError("File {} does not exist".format(file_name))
+
+    return giocpp.loadislbias(file_name)

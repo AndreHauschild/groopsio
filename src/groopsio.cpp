@@ -38,6 +38,7 @@ extern "C" {
     {"saveinstrument", (PyCFunction)saveinstrument, METH_VARARGS, ""},
     {"loadinstrumentgnssreceiver", (PyCFunction)loadinstrumentgnssreceiver, METH_VARARGS, ""},
     {"loadgnsssignalbias", (PyCFunction)loadgnsssignalbias, METH_VARARGS, ""},
+    {"loadislbias",    (PyCFunction)loadislbias, METH_VARARGS, ""},
 
     {"loadstarcamera", (PyCFunction)loadstarcamera, METH_VARARGS, ""},
 
