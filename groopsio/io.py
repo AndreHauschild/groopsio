@@ -284,7 +284,7 @@ def loadinstrument(file_name, concat_arcs=False):
     return arcs, epoch_type
 
 
-def loadinstrumentgnssreceiver(file_name):
+def loadinstrumentgnssreceiver(file_name, useMjd=False):
     """
     Read GROOPS GnssReceiver (observation or residual) instrument file format.
 
@@ -325,9 +325,10 @@ def loadinstrumentgnssreceiver(file_name):
 
     t0 = dt.datetime(1858, 11, 17)
     for arc in arcs:
-        is_residual_file = np.any([s.endswith('_redundancy') for s in arc.keys()])
+        if not useMjd:
+            arc["epochs"] = np.array([t0 + dt.timedelta(days=tk) for tk in arc["epochs"]])
 
-        arc["epochs"] = np.array([t0 + dt.timedelta(days=tk) for tk in arc["epochs"]])
+        is_residual_file = np.any([s.endswith('_redundancy') for s in arc.keys()])
         to_delete = []
         # Remove 0 values in observations
         for obs_name, values in arc.items():
