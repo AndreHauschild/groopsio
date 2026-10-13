@@ -284,7 +284,7 @@ def loadinstrument(file_name, concat_arcs=False):
     return arcs, epoch_type
 
 
-def loadinstrumentgnssreceiver(file_name, useMjd=False):
+def loadinstrumentgnssreceiver(file_name, useMjd=False, removeZero=False):
     """
     Read GROOPS GnssReceiver (observation or residual) instrument file format.
 
@@ -325,20 +325,22 @@ def loadinstrumentgnssreceiver(file_name, useMjd=False):
 
     t0 = dt.datetime(1858, 11, 17)
     for arc in arcs:
+
         if not useMjd:
             arc["epochs"] = np.array([t0 + dt.timedelta(days=tk) for tk in arc["epochs"]])
 
-        is_residual_file = np.any([s.endswith('_redundancy') for s in arc.keys()])
-        to_delete = []
-        # Remove 0 values in observations
-        for obs_name, values in arc.items():
-            if obs_name.endswith("_redundancy") or obs_name.endswith("_sigmaFactor") or obs_name[0] == "D" or '*' in obs_name[0:3] or obs_name == "epochs":
-                continue
-            if np.count_nonzero(values[~np.isnan(values)]) == 0:
-                to_delete.extend([obs_name, obs_name + '_redundancy', obs_name + '_sigmaFactor'] if is_residual_file else [obs_name])
+        if removeZero:
+            is_residual_file = np.any([s.endswith('_redundancy') for s in arc.keys()])
+            to_delete = []
+            # Remove 0 values in observations
+            for obs_name, values in arc.items():
+                if obs_name.endswith("_redundancy") or obs_name.endswith("_sigmaFactor") or obs_name[0] == "D" or '*' in obs_name[0:3] or obs_name == "epochs":
+                    continue
+                if np.count_nonzero(values[~np.isnan(values)]) == 0:
+                    to_delete.extend([obs_name, obs_name + '_redundancy', obs_name + '_sigmaFactor'] if is_residual_file else [obs_name])
 
-        for obs_name in to_delete:
-            arc.pop(obs_name)
+            for obs_name in to_delete:
+                arc.pop(obs_name)
 
     return arcs
 
