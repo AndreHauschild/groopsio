@@ -3,7 +3,6 @@ requires = [
     "setuptools>=64",
     "wheel",
     "cmake>=3.16",
-    "numpy>=2",
-    "scipy"
+    "numpy>=2"
 ]
 build-backend = "setuptools.build_meta"
